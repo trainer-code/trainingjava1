@@ -1,0 +1,22 @@
+language: java
+install: true
+os: linux
+dist: trusty
+jdk: oraclejdk8
+
+before_install:
+ - chmod +x gradlew
+
+script:
+    - ./gradlew build
+
+before_deploy: 
+ - cp ./console-app/build/distributions/console-app-1.0.0-SNAPSHOT.zip ./dist/battleship.zip
+deploy: 
+ provider: pages
+ skip-cleanup: true
+ github-token: $GITHUB_TOKEN
+ local_dir: dist
+
+ on:
+  branch: master
