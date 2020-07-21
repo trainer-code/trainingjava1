@@ -37,15 +37,28 @@ public class Ship {
         this.color = color;
     }
 
-    public void addPosition(String input) {
+    public boolean addPosition(String input) {
         if (positions == null) {
             positions = new ArrayList<>();
         }
 
-        Letter letter = Letter.valueOf(input.toUpperCase().substring(0, 1));
+        String letter=input.toUpperCase().substring(0, 1);
         int number = Integer.parseInt(input.substring(1));
+        Position position=checkPosition(letter,number);
+        if(position!=null){
+            positions.add(position);
+            return true;
+        }
+        return false;
+    }
 
-        positions.add(new Position(letter, number));
+    public Position checkPosition(String letter, int number ){
+        int ci=(int)letter.charAt(0);
+        if(ci<65 || ci>72 || number<1 || number>8)
+            return null;
+        Letter letterEnum = Letter.valueOf(letter);
+
+        return new Position(letterEnum,number);
     }
 
     // TODO: property change listener implementieren
