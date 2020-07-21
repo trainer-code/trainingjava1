@@ -9,6 +9,7 @@ import org.scrum.psd.battleship.controller.dto.Ship;
 
 import java.util.*;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -220,29 +221,47 @@ public class Main {
         console.clear();
     }
 
+    private static boolean doesPositionExist(Position newPosition, List<Position> allPositions) {
+      for (Position position : allPositions) {
+        if (position.equals(newPosition) ) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    public static int getletterIndex(final Letter letter) {
+      String letters = "ABCDEFGH";
+      return letters.indexOf(letter.toString());
+    }
+
+    public static boolean doesPositionNeighbour(Position newPosition, List<Position> shipPositions) {
+      for (Position position : shipPositions) {
+        if (position.getRow() + 1  == newPosition.getRow() || position.getRow() - 1  == newPosition.getRow()) {
+          return true;
+        }
+
+        if (getletterIndex(position.getColumn()) + 1  == getletterIndex(newPosition.getColumn()) || getletterIndex(position.getColumn()) - 1  == getletterIndex(newPosition.getColumn()) ) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     private static void InitializeEnemyFleet() {
         enemyFleet = GameController.initializeShips();
+        Position position;
+        List<Position> allPositions = new ArrayList<>();
+        for (Ship ship : enemyFleet) {
+          for (int i = 1; i <= ship.getSize(); i++) {
+            do {
+              position = getRandomPosition();
+            } while (doesPositionExist(position, allPositions)); // || !doesPositionNeighbour(position, ship.getPositions()));
 
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 4));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 5));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 7));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 8));
-
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 6));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 7));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 8));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 9));
-
-        enemyFleet.get(2).getPositions().add(new Position(Letter.A, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.B, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.C, 3));
-
-        enemyFleet.get(3).getPositions().add(new Position(Letter.F, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.G, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.H, 8));
-
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 5));
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));
+            ship.getPositions().add(position);
+          }
+        }
     }
 }
