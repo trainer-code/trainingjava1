@@ -7,9 +7,7 @@ import org.scrum.psd.battleship.controller.dto.Letter;
 import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
@@ -56,6 +54,14 @@ public class Main {
         boolean isMyFleetSunk=false;
 
 
+        Set<Position> availablePositions = new HashSet();
+
+        for(Letter l : Letter.values()){
+            for(int p = 1; p<=8; p++){
+                availablePositions.add(new Position(l,p));
+            }
+        }
+
         console.print("\033[2J\033[;H");
         console.println("                  __");
         console.println("                 /  \\");
@@ -73,9 +79,18 @@ public class Main {
             console.setBackgroundColor(Ansi.BColor.BLACK);
             console.setForegroundColor(Ansi.FColor.GREEN);
             console.println("Player, it's your turn");
-            console.println("Enter coordinates for your shot :");
+            console.println("Available moves:");
+            for(Position p: availablePositions){
+                console.print(p.getColumn().toString()+p.getRow()+" ");
+            }
+            console.println("");
+            Position position = null;
+            do {
+                console.println("Enter coordinates for your shot :");
+                position = parsePosition(scanner.next());
+            }while(!availablePositions.contains(position));
+            availablePositions.remove(position);
             console.clear();
-            Position position = parsePosition(scanner.next());
             boolean isHit = GameController.fireAndCheckIsHit(enemyFleet, position);
             if (isHit) {
                 beep();
