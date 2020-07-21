@@ -148,11 +148,17 @@ public class Main {
         for (Ship ship : myFleet) {
             console.println("");
             console.println(String.format("Please enter the positions for the %s (size: %s)", ship.getName(), ship.getSize()));
-            for (int i = 1; i <= ship.getSize(); i++) {
+            int i=0;
+            while(i<ship.getSize()){
                 console.println(String.format("Enter position %s of %s (i.e A3):", i, ship.getSize()));
-
                 String positionInput = scanner.next();
-                ship.addPosition(positionInput);
+                if(ship.addPosition(positionInput)){
+                    i++;
+                }
+                else{
+                    console.println("Incorrect position");
+                }
+
             }
         }
     }
