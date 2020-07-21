@@ -43,6 +43,9 @@ public class Main {
 
     private static void StartGame() {
         Scanner scanner = new Scanner(System.in);
+        boolean isEnemyFleetSunk=false;
+        boolean isMyFleetSunk=false;
+
 
         console.print("\033[2J\033[;H");
         console.println("                  __");
@@ -61,7 +64,7 @@ public class Main {
             console.println("Player, it's your turn");
             console.println("Enter coordinates for your shot :");
             Position position = parsePosition(scanner.next());
-            boolean isHit = GameController.checkIsHit(enemyFleet, position);
+            boolean isHit = GameController.fireAndCheckIsHit(enemyFleet, position);
             if (isHit) {
                 beep();
 
@@ -76,25 +79,38 @@ public class Main {
             }
 
             console.println(isHit ? "Yeah ! Nice hit !" : "Miss");
+            isEnemyFleetSunk= GameController.HasFleetSunk(enemyFleet);
 
-            position = getRandomPosition();
-            isHit = GameController.checkIsHit(myFleet, position);
-            console.println("");
-            console.println(String.format("Computer shoot in %s%s and %s", position.getColumn(), position.getRow(), isHit ? "hit your ship !" : "miss"));
-            if (isHit) {
-                beep();
+            if(isEnemyFleetSunk){
+                console.println("You are the winner!");
 
-                console.println("                \\         .  ./");
-                console.println("              \\      .:\" \";'.:..\" \"   /");
-                console.println("                  (M^^.^~~:.'\" \").");
-                console.println("            -   (/  .    . . \\ \\)  -");
-                console.println("               ((| :. ~ ^  :. .|))");
-                console.println("            -   (\\- |  \\ /  |  /)  -");
-                console.println("                 -\\  \\     /  /-");
-                console.println("                   \\  \\   /  /");
+            }else{
+                position = getRandomPosition();
+                isHit = GameController.fireAndCheckIsHit(myFleet, position);
+                console.println("");
+                console.println(String.format("Computer shoot in %s%s and %s", position.getColumn(), position.getRow(), isHit ? "hit your ship !" : "miss"));
+                if (isHit) {
+                    beep();
 
+                    console.println("                \\         .  ./");
+                    console.println("              \\      .:\" \";'.:..\" \"   /");
+                    console.println("                  (M^^.^~~:.'\" \").");
+                    console.println("            -   (/  .    . . \\ \\)  -");
+                    console.println("               ((| :. ~ ^  :. .|))");
+                    console.println("            -   (\\- |  \\ /  |  /)  -");
+                    console.println("                 -\\  \\     /  /-");
+                    console.println("                   \\  \\   /  /");
+
+                }
+                isMyFleetSunk= GameController.HasFleetSunk(myFleet);
+                if(isMyFleetSunk){
+                    console.println("You lost!");
+                }
             }
-        } while (true);
+
+
+
+        } while (!isMyFleetSunk && !isEnemyFleetSunk);
     }
 
     private static void beep() {

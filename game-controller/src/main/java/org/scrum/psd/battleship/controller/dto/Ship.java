@@ -1,7 +1,9 @@
 package org.scrum.psd.battleship.controller.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Ship {
     private boolean isPlaced;
@@ -9,6 +11,8 @@ public class Ship {
     private int size;
     private List<Position> positions;
     private Color color;
+    private Set<Position> hitPositions;
+
 
     public Ship() {
         this.positions = new ArrayList<>();
@@ -16,7 +20,7 @@ public class Ship {
 
     public Ship(String name, int size) {
         this();
-
+        this.hitPositions = new HashSet();
         this.name = name;
         this.size = size;
     }
@@ -84,5 +88,14 @@ public class Ship {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public boolean fireHit(Position shot){
+        int prevLength=hitPositions.size();
+        hitPositions.add(shot);
+        return prevLength!=hitPositions.size();
+    }
+    public boolean isSunk(){
+        return hitPositions.size()==positions.size();
     }
 }

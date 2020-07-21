@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameController {
-    public static boolean checkIsHit(Collection<Ship> ships, Position shot) {
+    public static boolean fireAndCheckIsHit(Collection<Ship> ships, Position shot) {
         if (ships == null) {
             throw new IllegalArgumentException("ships is null");
         }
@@ -22,13 +22,23 @@ public class GameController {
 
         for (Ship ship : ships) {
             for (Position position : ship.getPositions()) {
-                if (position.equals(shot)) {
-                    return true;
+                if (position.equals(shot) ) {
+                    return ship.fireHit(position);
                 }
             }
         }
 
         return false;
+    }
+
+    public static boolean HasFleetSunk(Collection<Ship> ships){
+
+        for(Ship ship: ships){
+            if(!ship.isSunk()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static List<Ship> initializeShips() {

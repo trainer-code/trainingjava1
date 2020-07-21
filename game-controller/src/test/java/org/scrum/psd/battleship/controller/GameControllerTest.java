@@ -11,6 +11,33 @@ import java.util.List;
 
 public class GameControllerTest {
     @Test
+    public void testCheckHasFleetSunkTrue() {
+        List<Ship> ships = GameController.initializeShips();
+        int counter = 0;
+
+        for (Ship ship : ships) {
+            Letter letter = Letter.values()[counter];
+
+            for (int i = 0; i < ship.getSize(); i++) {
+                ship.getPositions().add(new Position(letter, i));
+            }
+
+            counter++;
+        }
+
+        for (Ship ship : ships) {
+            Letter letter = Letter.values()[counter];
+
+            for (Position pos : ship.getPositions()) {
+                ship.fireHit(pos);
+            }
+        }
+
+        boolean result = GameController.HasFleetSunk(ships);
+
+        Assert.assertTrue(result);
+    }
+    @Test
     public void testCheckIsHitTrue() {
         List<Ship> ships = GameController.initializeShips();
         int counter = 0;
@@ -25,7 +52,7 @@ public class GameControllerTest {
             counter++;
         }
 
-        boolean result = GameController.checkIsHit(ships, new Position(Letter.A, 1));
+        boolean result = GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 1));
 
         Assert.assertTrue(result);
     }
@@ -45,19 +72,19 @@ public class GameControllerTest {
             counter++;
         }
 
-        boolean result = GameController.checkIsHit(ships, new Position(Letter.H, 1));
+        boolean result = GameController.fireAndCheckIsHit(ships, new Position(Letter.H, 1));
 
         Assert.assertFalse(result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCheckIsHitPositstionIsNull() {
-        GameController.checkIsHit(GameController.initializeShips(), null);
+        GameController.fireAndCheckIsHit(GameController.initializeShips(), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCheckIsHitShipIsNull() {
-        GameController.checkIsHit(null, new Position(Letter.H, 1));
+        GameController.fireAndCheckIsHit(null, new Position(Letter.H, 1));
     }
 
     @Test
@@ -77,5 +104,7 @@ public class GameControllerTest {
 
         Assert.assertTrue(result);
     }
+
+
 
 }
