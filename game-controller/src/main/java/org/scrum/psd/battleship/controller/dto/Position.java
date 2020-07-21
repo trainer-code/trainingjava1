@@ -44,4 +44,9 @@ public class Position {
 
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return 10001+this.column.ordinal()*100+this.row;
+    }
 }
