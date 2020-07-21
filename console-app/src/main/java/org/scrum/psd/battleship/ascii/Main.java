@@ -8,7 +8,10 @@ import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
 import java.util.*;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
@@ -52,6 +55,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean isEnemyFleetSunk=false;
         boolean isMyFleetSunk=false;
+        HashSet<Position> alreadyShot= new HashSet<>();
 
 
         Set<Position> availablePositions = new HashSet();
@@ -122,7 +126,7 @@ public class Main {
             if(isEnemyFleetSunk){
                 printFinalMessage(playerWinnerBackground,playerWinnerMessage);
             }else{
-                position = getRandomPosition();
+                position = getRandomPosition(alreadyShot);
                 isHit = GameController.fireAndCheckIsHit(myFleet, position);
                 console.setBackgroundColor(Ansi.BColor.CYAN);
                 console.setForegroundColor(Ansi.FColor.BLACK);
@@ -167,13 +171,19 @@ public class Main {
         return new Position(letter, number);
     }
 
-    private static Position getRandomPosition() {
+    private static Position getRandomPosition(HashSet<Position> alreadyShot) {
         int rows = 8;
         int lines = 8;
         Random random = new Random();
-        Letter letter = Letter.values()[random.nextInt(lines)];
-        int number = random.nextInt(rows);
-        Position position = new Position(letter, number);
+        int prevLength= alreadyShot.size();
+        Position position=null;
+        while(prevLength==alreadyShot.size() || alreadyShot.size()==64){
+            Letter letter = Letter.values()[random.nextInt(lines)];
+            int number = random.nextInt(rows);
+            position = new Position(letter, number);
+            alreadyShot.add(position);
+        }
+
         return position;
     }
 
