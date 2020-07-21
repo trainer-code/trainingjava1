@@ -209,7 +209,7 @@ public class Main {
 
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 4));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 5));
-   /*     enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
+        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 7));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 8));
 
@@ -227,6 +227,6 @@ public class Main {
         enemyFleet.get(3).getPositions().add(new Position(Letter.H, 8));
 
         enemyFleet.get(4).getPositions().add(new Position(Letter.C, 5));
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));*/
+        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));
     }
 }
