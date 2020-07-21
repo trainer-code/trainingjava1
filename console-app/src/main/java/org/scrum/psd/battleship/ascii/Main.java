@@ -11,15 +11,24 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class Main {
+
+    static final String playerWinnerMessage="You are the winner!";
+    static final String playerLoserMessage="You lose!";
+
+    static final Ansi.BColor playerLoserBackground = Ansi.BColor.RED;
+    static final Ansi.BColor playerWinnerBackground = Ansi.BColor.GREEN;
+
+
     private static List<Ship> myFleet;
     private static List<Ship> enemyFleet;
     private static ColoredPrinter console;
 
+
+
     public static void main(String[] args) {
         console = new ColoredPrinter.Builder(1, false).build();
-
-        console.setForegroundColor(Ansi.FColor.MAGENTA);
         console.println("                                     |__");
         console.println("                                     |\\/");
         console.println("                                     ---");
@@ -60,9 +69,12 @@ public class Main {
         console.println("    \" \"\" \"\" \"\" \"");
 
         do {
-            console.println("");
+            console.println("-------------------------- Next Turn -----------------------------------------------");
+            console.setBackgroundColor(Ansi.BColor.BLACK);
+            console.setForegroundColor(Ansi.FColor.GREEN);
             console.println("Player, it's your turn");
             console.println("Enter coordinates for your shot :");
+            console.clear();
             Position position = parsePosition(scanner.next());
             boolean isHit = GameController.fireAndCheckIsHit(enemyFleet, position);
             if (isHit) {
@@ -78,19 +90,32 @@ public class Main {
                 console.println("                   \\  \\   /  /");
             }
 
-            console.println(isHit ? "Yeah ! Nice hit !" : "Miss");
+            if(isHit){
+                console.setBackgroundColor(Ansi.BColor.YELLOW);
+                console.setForegroundColor(Ansi.FColor.BLACK);
+                console.println("Yeah ! Nice hit !");
+                console.clear();
+            }
+            else{
+                console.setBackgroundColor(Ansi.BColor.BLUE);
+                console.setForegroundColor(Ansi.FColor.WHITE);
+                console.println("Miss");
+                console.clear();
+            }
             isEnemyFleetSunk= GameController.HasFleetSunk(enemyFleet);
 
             if(isEnemyFleetSunk){
-                console.println("You are the winner!");
-
+                printFinalMessage(playerWinnerBackground,playerWinnerMessage);
             }else{
                 position = getRandomPosition();
                 isHit = GameController.fireAndCheckIsHit(myFleet, position);
+                console.setBackgroundColor(Ansi.BColor.CYAN);
+                console.setForegroundColor(Ansi.FColor.BLACK);
                 console.println("");
                 console.println(String.format("Computer shoot in %s%s and %s", position.getColumn(), position.getRow(), isHit ? "hit your ship !" : "miss"));
+                console.clear();
                 if (isHit) {
-                    beep();
+                    //beep();
 
                     console.println("                \\         .  ./");
                     console.println("              \\      .:\" \";'.:..\" \"   /");
@@ -104,17 +129,21 @@ public class Main {
                 }
                 isMyFleetSunk= GameController.HasFleetSunk(myFleet);
                 if(isMyFleetSunk){
-                    console.println("You lost!");
+                    printFinalMessage(playerLoserBackground, playerLoserMessage);
                 }
             }
-
-
-
         } while (!isMyFleetSunk && !isEnemyFleetSunk);
     }
 
+    private static void printFinalMessage(final Ansi.BColor backgroundColor, final String message) {
+        console.setBackgroundColor(backgroundColor);
+        console.setForegroundColor(Ansi.FColor.BLACK);
+        console.println(message);
+        console.clear();
+    }
+
     private static void beep() {
-        console.print("\007");
+        console.println("\007");
     }
 
     protected static Position parsePosition(String input) {
@@ -143,6 +172,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         myFleet = GameController.initializeShips();
 
+        console.setForegroundColor(Ansi.FColor.GREEN);
+        console.setBackgroundColor(Ansi.BColor.BLACK);
         console.println("Please position your fleet (Game board has size from A to H and 1 to 8) :");
 
         for (Ship ship : myFleet) {
@@ -155,6 +186,7 @@ public class Main {
                 ship.addPosition(positionInput);
             }
         }
+        console.clear();
     }
 
     private static void InitializeEnemyFleet() {
@@ -162,7 +194,7 @@ public class Main {
 
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 4));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 5));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
+   /*     enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 7));
         enemyFleet.get(0).getPositions().add(new Position(Letter.B, 8));
 
@@ -180,6 +212,6 @@ public class Main {
         enemyFleet.get(3).getPositions().add(new Position(Letter.H, 8));
 
         enemyFleet.get(4).getPositions().add(new Position(Letter.C, 5));
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));
+        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));*/
     }
 }
