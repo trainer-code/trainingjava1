@@ -89,13 +89,10 @@ public class GameControllerTest {
       firstShip.addPosition("A5");
 
       GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 1));
-      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 2));
-      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 3));
-      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 4));
 
       // Act
 
-      Assert.assertTrue(GameController.checkThatAnyShipShouldBeSunkAndSinkIt(ships, new Position(Letter.A, 4)) == null);
+      Assert.assertNull(GameController.checkThatAnyShipShouldBeSunkAndSinkIt(ships, new Position(Letter.A, 1)));
     }
 
 

@@ -39,6 +39,10 @@ public class Ship {
     return hasSunk;
   }
 
+    public void setIsSunk(final boolean value){
+    hasSunk = value;
+  }
+
     public Ship(String name, int size, List<Position> positions) {
         this(name, size);
 

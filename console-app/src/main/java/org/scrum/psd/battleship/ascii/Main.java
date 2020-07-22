@@ -37,9 +37,11 @@ public class Main {
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("testing1")) {
           testingMode = 1;
-        }  else  if (args.length > 0 && args[0].equals("testing2")) {
-        testingMode = 2;
-      }
+        } else  if (args.length > 0 && args[0].equals("testing2")) {
+            testingMode = 2;
+        } else  if (args.length > 0 && args[0].equals("testing3")) {
+          testingMode = 3;
+        }
         consoleSetUp();
         console.println("                                     |__");
         console.println("                                     |\\/");
@@ -340,7 +342,11 @@ public class Main {
         InitializeMyFleetManually();
       }
 
+      if (testingMode == 3) {
+        initialiseAndShotAllShipsInEnemyFleet();
+      } else {
         InitializeEnemyFleetRandomly();
+      }
     }
 
     private static void InitializeMyFleetManually() {
@@ -527,6 +533,72 @@ public class Main {
           printFleet(enemyFleet, "Enemy Fleet");
         }
     }
+
+  public static void initialiseAndShotAllShipsInEnemyFleet() {
+    enemyFleet = GameController.initializeShips();
+
+    // Aircraft Carrier
+    Ship ship1 = enemyFleet.get(0);
+    ship1.addPosition("G3");
+    ship1.addPosition("G2");
+    ship1.addPosition("G4");
+    ship1.addPosition("F3");
+    ship1.addPosition("H3");
+
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.G, 3));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.G, 2));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.G, 4));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.F, 3));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.H, 3));
+    ship1.setIsSunk(true);
+
+    //  Battleship
+    Ship ship2 = enemyFleet.get(1);
+    ship2.addPosition("D6");
+    ship2.addPosition("D7");
+    ship2.addPosition("C6");
+    ship2.addPosition("E6");
+
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.D, 6));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.D, 7));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.C, 6));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.E, 6));
+    ship2.setIsSunk(true);
+
+
+    // Submarine
+    Ship ship3 = enemyFleet.get(2);
+    ship3.addPosition("C5");
+    ship3.addPosition("B5");
+    ship3.addPosition("C4");
+
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.C, 5));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.B, 5));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.C, 4));
+    ship3.setIsSunk(true);
+
+    // Destroyer
+    Ship ship4 = enemyFleet.get(3);
+    ship4.addPosition("A0");
+    ship4.addPosition("A1");
+    ship4.addPosition("B0");
+
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.A, 0));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.A, 1));
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.B, 0));
+    ship4.setIsSunk(true);
+
+    // Patrol Boat
+    Ship ship5 = enemyFleet.get(4);
+    ship5.addPosition("A6");
+    ship5.addPosition("A5");
+
+    GameController.fireAndCheckIsHit(enemyFleet, new Position(Letter.A, 6));
+  //  ship5.fireHit(new Position(Letter.A, 5));
+
+    printFleet(enemyFleet, "Enemy Fleet");
+
+  }
 
   public static void InitializeMyFleetRandomly() {
     myFleet = GameController.initializeShips();

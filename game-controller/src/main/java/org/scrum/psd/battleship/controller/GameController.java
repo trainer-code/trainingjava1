@@ -46,38 +46,6 @@ public class GameController {
       return null;
     }
 
-  public static List<String> getSunkShipNames(Collection<Ship> ships) {
-    if (ships == null) {
-      throw new IllegalArgumentException("ships is null");
-    }
-
-    ArrayList<String> sunkShips = new ArrayList<>();
-
-    for (Ship ship : ships) {
-      if (ship.isSunk()) {
-        sunkShips.add(ship.getName());
-      }
-    }
-
-    return sunkShips;
-  }
-
-    public static List<String> getUnSunkShipNames(Collection<Ship> ships) {
-      if (ships == null) {
-        throw new IllegalArgumentException("ships is null");
-      }
-
-      ArrayList<String> sunkShips = new ArrayList<>();
-
-      for (Ship ship : ships) {
-        if (!ship.isSunk()) {
-          sunkShips.add(ship.getName());
-        }
-      }
-
-      return sunkShips;
-    }
-
     public static boolean HasFleetSunk(Collection<Ship> ships){
 
         for(Ship ship: ships){
