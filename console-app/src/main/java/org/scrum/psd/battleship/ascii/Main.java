@@ -40,7 +40,7 @@ public class Main {
         }  else  if (args.length > 0 && args[0].equals("testing2")) {
         testingMode = 2;
       }
-        console = new ColoredPrinter.Builder(1, false).build();
+        consoleSetUp();
         console.println("                                     |__");
         console.println("                                     |\\/");
         console.println("                                     ---");
@@ -60,6 +60,10 @@ public class Main {
         InitializeGame();
 
         StartGame();
+    }
+
+    public static void consoleSetUp() {
+        console = new ColoredPrinter.Builder(1, false).build();
     }
 
     private static void StartGame() {
@@ -173,6 +177,90 @@ public class Main {
                 }
             }
         } while (!isMyFleetSunk && !isEnemyFleetSunk);
+
+        if(isEnemyFleetSunk){
+            printWinArt();
+        }
+        else{
+            printGameOverArt();
+        }
+    }
+
+    public static void printGameOverArt() {
+        /*console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ███▀▀▀██┼███▀▀▀███┼███▀█▄█▀███┼██▀▀▀");
+        console.println(" ██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼█┼┼┼██┼██┼┼┼");
+        console.println(" ██┼┼┼▄▄▄┼██▄▄▄▄▄██┼██┼┼┼▀┼┼┼██┼██▀▀▀");
+        console.println(" ██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██┼┼┼");
+        console.println(" ███▄▄▄██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██▄▄▄");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ███▀▀▀███┼▀███┼┼██▀┼██▀▀▀┼██▀▀▀▀██▄┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼██┼┼██┼┼┼┼██┼┼┼┼┼██┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼██┼┼██▀▀▀┼██▄▄▄▄▄▀▀┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼█▀┼┼██┼┼┼┼██┼┼┼┼┼██┼");
+        console.println(" ███▄▄▄███┼┼┼─▀█▀┼┼─┼██▄▄▄┼██┼┼┼┼┼██▄");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼████▄┼┼┼▄▄▄▄▄▄▄┼┼┼▄████┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼▀▀█▄█████████▄█▀▀┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼█████████████┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼██▀▀▀███▀▀▀██┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼██┼┼┼███┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼█████▀▄▀█████┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼███████████┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼▄▄▄██┼┼█▀█▀█┼┼██▄▄▄┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼▀▀██┼┼┼┼┼┼┼┼┼┼┼██▀▀┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+
+        */
+        console.println("        GGGGGGGGGGGGG");
+                console.println("     GGG::::::::::::G");
+                        console.println("   GG:::::::::::::::G");
+                                console.println("  G:::::GGGGGGGG::::G");
+                                        console.println(" G:::::G       GGGGGG  aaaaaaaaaaaaa      mmmmmmm    mmmmmmm       eeeeeeeeeeee            ooooooooooo vvvvvvv           vvvvvvv eeeeeeeeeeee    rrrrr   rrrrrrrrr");
+        console.println("G:::::G                a::::::::::::a   mm:::::::m  m:::::::mm   ee::::::::::::ee        oo:::::::::::oov:::::v         v:::::vee::::::::::::ee  r::::rrr:::::::::r");
+        console.println("G:::::G                aaaaaaaaa:::::a m::::::::::mm::::::::::m e::::::eeeee:::::ee     o:::::::::::::::ov:::::v       v:::::ve::::::eeeee:::::eer:::::::::::::::::r");
+        console.println("G:::::G    GGGGGGGGGG           a::::a m::::::::::::::::::::::me::::::e     e:::::e     o:::::ooooo:::::o v:::::v     v:::::ve::::::e     e:::::err::::::rrrrr::::::r");
+        console.println("G:::::G    G::::::::G    aaaaaaa:::::a m:::::mmm::::::mmm:::::me:::::::eeeee::::::e     o::::o     o::::o  v:::::v   v:::::v e:::::::eeeee::::::e r:::::r     r:::::r");
+        console.println("G:::::G    GGGGG::::G  aa::::::::::::a m::::m   m::::m   m::::me:::::::::::::::::e      o::::o     o::::o   v:::::v v:::::v  e:::::::::::::::::e  r:::::r     rrrrrrr");
+        console.println("G:::::G        G::::G a::::aaaa::::::a m::::m   m::::m   m::::me::::::eeeeeeeeeee       o::::o     o::::o    v:::::v:::::v   e::::::eeeeeeeeeee   r:::::r               ");
+        console.println(" G:::::G       G::::Ga::::a    a:::::a m::::m   m::::m   m::::me:::::::e                o::::o     o::::o     v:::::::::v    e:::::::e            r:::::r                 ");
+        console.println("  G:::::GGGGGGGG::::Ga::::a    a:::::a m::::m   m::::m   m::::me::::::::e               o:::::ooooo:::::o      v:::::::v     e::::::::e           r:::::r                 ");
+        console.println("   GG:::::::::::::::Ga:::::aaaa::::::a m::::m   m::::m   m::::m e::::::::eeeeeeee       o:::::::::::::::o       v:::::v       e::::::::eeeeeeee   r:::::r                 ");
+        console.println("     GGG::::::GGG:::G a::::::::::aa:::am::::m   m::::m   m::::m  ee:::::::::::::e        oo:::::::::::oo         v:::v         ee:::::::::::::e   r:::::r                 ");
+        console.println("        GGGGGG   GGGG  aaaaaaaaaa  aaaammmmmm   mmmmmm   mmmmmm    eeeeeeeeeeeeee          ooooooooooo            vvv            eeeeeeeeeeeeee   rrrrrrr    ");
+
+
+
+    }
+
+    public static void printWinArt() {
+        console.setForegroundColor(Ansi.FColor.MAGENTA);
+        console.setBackgroundColor(Ansi.BColor.BLACK);
+        console.println("                                   .''.       ");
+        console.println("       .''.      .        *''*    :_\\/_:     . ");
+        console.println("      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.");
+        console.println("  .''.: /\\ :   ./)\\   ':'* /\\ * :  '..'.  -=:o:=-");
+        console.println(" :_\\/_:'.:::.    ' *''*    * '.\\'/.' _\\(/_'.':'.'");
+        console.println(" : /\\ : :::::     *_\\/_*     -= o =-  /)\\    '  *");
+        console.println("  '..'  ':::'     * /\\ *     .'/.\\'.   '");
+        console.println("      *            *..*         :");
+        console.println("       *");
+        console.println("        *");
+        console.println("");
+        console.println(" .----------------.  .----------------.  .----------------.   .----------------.  .----------------.  .-----------------.  .----------------. ");
+        console.println("| .--------------. || .--------------. || .--------------. | | .--------------. || .--------------. || .--------------. | | .--------------. |");
+        console.println("| |  ____  ____  | || |     ____     | || | _____  _____ | | | | _____  _____ | || |     _____    | || | ____  _____  | | | |              | |");
+        console.println("| |_  _||_  _| | || |   .'    `.   | || ||_   _||_   _|| | | ||_   _||_   _|| || |    |_   _|   | || ||_   \\|_   _| | | | |      _       | |");
+        console.println("| |   \\ \\  / /   | || |  /  .--.  \\  | || |  | |    | |  | | | |  | | /\\ | |  | || |      | |     | || |  |   \\ | |   | | | |     | |      | |");
+        console.println("| |    \\ \\/ /    | || |  | |    | |  | || |  | '    ' |  | | | |  | |/  \\| |  | || |      | |     | || |  | |\\ \\| |   | | | |     | |      | |");
+        console.println("| |    _|  |_    | || |  \\  `--'  /  | || |   \\ `--' /   | | | |  |   /\\   |  | || |     _| |_    | || | _| |_\\   |_  | | | |     | |      | |");
+        console.println("| |   |______|   | || |   `.____.'   | || |    `.__.'    | | | |  |__/  \\__|  | || |    |_____|   | || ||_____|\\____| | | | |     |_|      | |");
+        console.println("| |              | || |              | || |              | | | |              | || |              | || |              | | | |     (_)      | |");
+        console.println("| '--------------' || '--------------' || '--------------' | | '--------------' || '--------------' || '--------------' | | '--------------' |");
+        console.println("'----------------'  '----------------'  '----------------'   '----------------'  '----------------'  '----------------'   '----------------' ");
+        console.clear();
     }
 
   private static void printSunkStatus(final List<Ship> fleet, final String title, final Ship justSunkShip) {
