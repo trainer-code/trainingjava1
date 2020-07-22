@@ -320,6 +320,16 @@ public class Main {
       return null;
     }
 
+  private static Position getRandomPositionWithoutRestriction() {
+    int rows = 8;
+    int lines = 8;
+    Random random = new Random();
+    Letter letter = Letter.values()[random.nextInt(lines)];
+    int number = random.nextInt(rows);
+    Position position = new Position(letter, number);
+    return position;
+  }
+
     public static void InitializeShipRandomly(final Ship ship, List<Position> occupiedPositions) {
       Position position;
       List<Position> possibleShipPositions = new ArrayList<>();
@@ -333,7 +343,7 @@ public class Main {
         });
 
         do {
-          position = getRandomPosition();
+          position = getRandomPositionWithoutRestriction();
         } while (doesPositionExist(position, occupiedPositions));
 
         Position tailPosition = position;
