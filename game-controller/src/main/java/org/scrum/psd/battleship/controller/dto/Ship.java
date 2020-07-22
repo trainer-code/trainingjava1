@@ -12,6 +12,7 @@ public class Ship {
     private List<Position> positions;
     private Color color;
     private Set<Position> hitPositions;
+    boolean hasSunk  = false;
 
 
     public Ship() {
@@ -24,6 +25,19 @@ public class Ship {
         this.name = name;
         this.size = size;
     }
+
+    public boolean checkThatShipShouldBeSunkAndSinkIt() {
+      if (!hasSunk && hitPositions.size() == size) {
+        hasSunk = true;
+        return true;
+      }
+
+      return false;
+    }
+
+     public boolean checkIsSunk(){
+    return hasSunk;
+  }
 
     public Ship(String name, int size, List<Position> positions) {
         this(name, size);

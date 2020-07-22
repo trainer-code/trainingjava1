@@ -77,6 +77,50 @@ public class GameControllerTest {
         Assert.assertFalse(result);
     }
 
+    @Test
+    public void testCheckNoShipSunk() {
+      // Arrange
+      List<Ship> ships = GameController.initializeShips();
+      Ship firstShip = ships.get(0);
+      firstShip.addPosition("A1");
+      firstShip.addPosition("A2");
+      firstShip.addPosition("A3");
+      firstShip.addPosition("A4");
+      firstShip.addPosition("A5");
+
+      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 1));
+      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 2));
+      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 3));
+      GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 4));
+
+      // Act
+
+      Assert.assertTrue(GameController.checkThatAnyShipShouldBeSunkAndSinkIt(ships, new Position(Letter.A, 4)) == null);
+    }
+
+
+      @Test
+      public void testCheckAnyShipSunk() {
+      // Arrange
+        List<Ship> ships = GameController.initializeShips();
+        Ship firstShip = ships.get(0);
+        firstShip.addPosition("A1");
+        firstShip.addPosition("A2");
+        firstShip.addPosition("A3");
+        firstShip.addPosition("A4");
+        firstShip.addPosition("A5");
+
+        GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 1));
+        GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 2));
+        GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 3));
+        GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 4));
+        GameController.fireAndCheckIsHit(ships, new Position(Letter.A, 5));
+
+        // Act
+
+        Assert.assertTrue( GameController.checkThatAnyShipShouldBeSunkAndSinkIt(ships, new Position(Letter.A, 5)) == firstShip);
+      }
+
     @Test(expected = IllegalArgumentException.class)
     public void testCheckIsHitPositstionIsNull() {
         GameController.fireAndCheckIsHit(GameController.initializeShips(), null);

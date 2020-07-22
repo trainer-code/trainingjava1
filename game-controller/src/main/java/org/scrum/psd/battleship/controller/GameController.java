@@ -5,10 +5,7 @@ import org.scrum.psd.battleship.controller.dto.Letter;
 import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameController {
     public static boolean fireAndCheckIsHit(Collection<Ship> ships, Position shot) {
@@ -29,6 +26,56 @@ public class GameController {
         }
 
         return false;
+    }
+
+    public static Ship checkThatAnyShipShouldBeSunkAndSinkIt(Collection<Ship> ships, Position shot) {
+      if (ships == null) {
+        throw new IllegalArgumentException("ships is null");
+      }
+
+      if (shot == null) {
+        throw new IllegalArgumentException("shot is null");
+      }
+
+      for (Ship ship : ships) {
+        if (ship.checkThatShipShouldBeSunkAndSinkIt()) {
+          return ship;
+        }
+      }
+
+      return null;
+    }
+
+  public static List<String> getSunkShipNames(Collection<Ship> ships) {
+    if (ships == null) {
+      throw new IllegalArgumentException("ships is null");
+    }
+
+    ArrayList<String> sunkShips = new ArrayList<>();
+
+    for (Ship ship : ships) {
+      if (ship.isSunk()) {
+        sunkShips.add(ship.getName());
+      }
+    }
+
+    return sunkShips;
+  }
+
+    public static List<String> getUnSunkShipNames(Collection<Ship> ships) {
+      if (ships == null) {
+        throw new IllegalArgumentException("ships is null");
+      }
+
+      ArrayList<String> sunkShips = new ArrayList<>();
+
+      for (Ship ship : ships) {
+        if (!ship.isSunk()) {
+          sunkShips.add(ship.getName());
+        }
+      }
+
+      return sunkShips;
     }
 
     public static boolean HasFleetSunk(Collection<Ship> ships){
