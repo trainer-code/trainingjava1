@@ -53,4 +53,15 @@ public class MainTest {
     Assert.assertEquals(2, enemyFleet.get(4).getSize());
     Assert.assertEquals(2, enemyFleet.get(4).getPositions().size());
   }
+
+  @Test
+    public void testWinAscii(){
+        Main.consoleSetUp();
+        Main.printWinArt();
+  }
+  @Test
+    public void testGameOverArt(){
+        Main.consoleSetUp();
+        Main.printGameOverArt();
+  }
 }

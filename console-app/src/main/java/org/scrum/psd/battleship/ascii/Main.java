@@ -40,7 +40,7 @@ public class Main {
         }  else  if (args.length > 0 && args[0].equals("testing2")) {
         testingMode = 2;
       }
-        console = new ColoredPrinter.Builder(1, false).build();
+        consoleSetUp();
         console.println("                                     |__");
         console.println("                                     |\\/");
         console.println("                                     ---");
@@ -60,6 +60,10 @@ public class Main {
         InitializeGame();
 
         StartGame();
+    }
+
+    public static void consoleSetUp() {
+        console = new ColoredPrinter.Builder(1, false).build();
     }
 
     private static void StartGame() {
@@ -163,6 +167,71 @@ public class Main {
                 }
             }
         } while (!isMyFleetSunk && !isEnemyFleetSunk);
+
+        if(isEnemyFleetSunk){
+            printWinArt();
+        }
+        else{
+            printGameOverArt();
+        }
+    }
+
+    public static void printGameOverArt() {
+        console.setForegroundColor(Ansi.FColor.RED);
+        console.setBackgroundColor(Ansi.BColor.BLACK);
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ███▀▀▀██┼███▀▀▀███┼███▀█▄█▀███┼██▀▀▀");
+        console.println(" ██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼█┼┼┼██┼██┼┼┼");
+        console.println(" ██┼┼┼▄▄▄┼██▄▄▄▄▄██┼██┼┼┼▀┼┼┼██┼██▀▀▀");
+        console.println(" ██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██┼┼┼");
+        console.println(" ███▄▄▄██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██▄▄▄");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ███▀▀▀███┼▀███┼┼██▀┼██▀▀▀┼██▀▀▀▀██▄┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼██┼┼██┼┼┼┼██┼┼┼┼┼██┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼██┼┼██▀▀▀┼██▄▄▄▄▄▀▀┼");
+        console.println(" ██┼┼┼┼┼██┼┼┼██┼┼█▀┼┼██┼┼┼┼██┼┼┼┼┼██┼");
+        console.println(" ███▄▄▄███┼┼┼─▀█▀┼┼─┼██▄▄▄┼██┼┼┼┼┼██▄");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼████▄┼┼┼▄▄▄▄▄▄▄┼┼┼▄████┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼▀▀█▄█████████▄█▀▀┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼█████████████┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼██▀▀▀███▀▀▀██┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼██┼┼┼███┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼█████▀▄▀█████┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼███████████┼┼┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼▄▄▄██┼┼█▀█▀█┼┼██▄▄▄┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼▀▀██┼┼┼┼┼┼┼┼┼┼┼██▀▀┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼");
+        console.println(" ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼");
+    }
+
+    public static void printWinArt() {
+        console.setForegroundColor(Ansi.FColor.MAGENTA);
+        console.setBackgroundColor(Ansi.BColor.BLACK);
+        console.println("                                   .''.       ");
+        console.println("       .''.      .        *''*    :_\\/_:     . ");
+        console.println("      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.");
+        console.println("  .''.: /\\ :   ./)\\   ':'* /\\ * :  '..'.  -=:o:=-");
+        console.println(" :_\\/_:'.:::.    ' *''*    * '.\\'/.' _\\(/_'.':'.'");
+        console.println(" : /\\ : :::::     *_\\/_*     -= o =-  /)\\    '  *");
+        console.println("  '..'  ':::'     * /\\ *     .'/.\\'.   '");
+        console.println("      *            *..*         :");
+        console.println("       *");
+        console.println("        *");
+        console.println("");
+        console.println(" .----------------.  .----------------.  .----------------.   .----------------.  .----------------.  .-----------------.  .----------------. ");
+        console.println("| .--------------. || .--------------. || .--------------. | | .--------------. || .--------------. || .--------------. | | .--------------. |");
+        console.println("| |  ____  ____  | || |     ____     | || | _____  _____ | | | | _____  _____ | || |     _____    | || | ____  _____  | | | |              | |");
+        console.println("| |_  _||_  _| | || |   .'    `.   | || ||_   _||_   _|| | | ||_   _||_   _|| || |    |_   _|   | || ||_   \\|_   _| | | | |      _       | |");
+        console.println("| |   \\ \\  / /   | || |  /  .--.  \\  | || |  | |    | |  | | | |  | | /\\ | |  | || |      | |     | || |  |   \\ | |   | | | |     | |      | |");
+        console.println("| |    \\ \\/ /    | || |  | |    | |  | || |  | '    ' |  | | | |  | |/  \\| |  | || |      | |     | || |  | |\\ \\| |   | | | |     | |      | |");
+        console.println("| |    _|  |_    | || |  \\  `--'  /  | || |   \\ `--' /   | | | |  |   /\\   |  | || |     _| |_    | || | _| |_\\   |_  | | | |     | |      | |");
+        console.println("| |   |______|   | || |   `.____.'   | || |    `.__.'    | | | |  |__/  \\__|  | || |    |_____|   | || ||_____|\\____| | | | |     |_|      | |");
+        console.println("| |              | || |              | || |              | | | |              | || |              | || |              | | | |     (_)      | |");
+        console.println("| '--------------' || '--------------' || '--------------' | | '--------------' || '--------------' || '--------------' | | '--------------' |");
+        console.println("'----------------'  '----------------'  '----------------'   '----------------'  '----------------'  '----------------'   '----------------' ");
+        console.clear();
     }
 
     private static void printFinalMessage(final Ansi.BColor backgroundColor, final String message) {
