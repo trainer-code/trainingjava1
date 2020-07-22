@@ -118,6 +118,11 @@ public class Main {
                 console.println("            -   (\\- |  \\ /  |  /)  -");
                 console.println("                 -\\  \\     /  /-");
                 console.println("                   \\  \\   /  /");
+
+              Ship justSunkShip = GameController.checkThatAnyShipShouldBeSunkAndSinkIt(enemyFleet, position);
+              if (justSunkShip != null) {
+                printSunkStatus(myFleet, "Enemy fleet after hit", justSunkShip);
+              }
             }
 
             if(isHit){
@@ -156,7 +161,12 @@ public class Main {
                     console.println("                 -\\  \\     /  /-");
                     console.println("                   \\  \\   /  /");
 
+                    Ship justSunkShip = GameController.checkThatAnyShipShouldBeSunkAndSinkIt(myFleet, position);
+                    if (justSunkShip != null) {
+                      printSunkStatus(myFleet, "My fleet after hit", justSunkShip);
+                    }
                 }
+
                 isMyFleetSunk= GameController.HasFleetSunk(myFleet);
                 if(isMyFleetSunk){
                     printFinalMessage(playerLoserBackground, playerLoserMessage);
@@ -164,6 +174,42 @@ public class Main {
             }
         } while (!isMyFleetSunk && !isEnemyFleetSunk);
     }
+
+  private static void printSunkStatus(List<Ship> fleet, final String title, final Ship justSunkShip) {
+    console.println("You sink enemy sink: " + justSunkShip.getName());
+
+    console.println("░░░░░░░█████████████");
+    console.println("░░░░░░░░░███░███░░░░░░██");
+    console.println("███░░░░░██░░░░██░██████████");
+    console.println("████████░░░░░░████░░░░░░░██");
+    console.println("████░░░░░░░░░░██░░██████████");
+    console.println("████░░░░░░░░░░░███░░░░░░░░░██");
+    console.println("████░░░░░░░░░░░██░░██████████");
+    console.println("████░░░░░░░░░░░░████░░░░░░░░█");
+    console.println("████░░░░░░░░░░░░░███░░████░░█");
+    console.println("█████████░░░░░░░░░░████░░░░░█");
+    console.println("███░░░░░██░░░░░░░░░░░░░█████");
+    console.println("░░░░░░░░░███░░░░░░░██████");
+    console.println("░░░░░░░░░░░██░░░░░░██");
+    console.println("░░░░░░░░░░░░███░░░░░██");
+    console.println("░░░░░░░░░░░░░░██░░░░██");
+    console.println("░░░░░░░░░░░░░░░███░░░██");
+    console.println("░░░░░░░░░░░░░░░░░██░░░█");
+    console.println("░░░░░░░░░░░░░░░░░░█░░░█");
+    console.println("░░░░░░░░░░░░░░░░░░██░██");
+    console.println("░░░░░░░░░░░░░░░░░░░███");
+
+
+    console.println("---------- " + title + " ---------");
+    for (Ship ship : fleet) {
+      if (ship.isSunk()) {
+        console.println(ship.getName() + " SUNK");
+      } else {
+        console.println(ship.getName() + " NOT SUNK");
+      }
+    }
+    console.println("-------------------------");
+  }
 
     private static void printFinalMessage(final Ansi.BColor backgroundColor, final String message) {
         console.setBackgroundColor(backgroundColor);
