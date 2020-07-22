@@ -28,6 +28,12 @@ Run battleship with Gradle in testing mode 2 (randomly generate user fleet and s
 ./gradlew run --args="testing2"
 ```
 
+Run battleship with Gradle in testing mode 3 (randomly generate user fleet and enemy fleet and shoot all but last position: A5)
+
+```bash
+./gradlew run --args="testing3"
+```
+
 Execute tests with Gradle
 
 ```bash
