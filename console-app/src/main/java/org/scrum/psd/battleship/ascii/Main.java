@@ -121,7 +121,7 @@ public class Main {
 
               Ship justSunkShip = GameController.checkThatAnyShipShouldBeSunkAndSinkIt(enemyFleet, position);
               if (justSunkShip != null) {
-                printSunkStatus(myFleet, "Enemy fleet after hit", justSunkShip);
+                printSunkStatus(enemyFleet, "Enemy fleet after hit", justSunkShip);
               }
             }
 
@@ -176,7 +176,7 @@ public class Main {
     }
 
   private static void printSunkStatus(final List<Ship> fleet, final String title, final Ship justSunkShip) {
-    console.println("You sink enemy sink: " + justSunkShip.getName());
+    console.println("You sink enemy ship: " + justSunkShip.getName());
 
     console.println("░░░░░░░█████████████");
     console.println("░░░░░░░░░███░███░░░░░░██");
@@ -202,7 +202,7 @@ public class Main {
 
     console.println("---------- " + title + " ---------");
     for (Ship ship : fleet) {
-      if (ship.checkIsSunk() || ship.getName() == justSunkShip.getName()) {
+      if (ship.checkIsSunk()) {
         console.println(ship.getName() + " SUNK");
       } else {
         console.println(ship.getName() + " NOT SUNK");
