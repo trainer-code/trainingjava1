@@ -15,6 +15,19 @@ Run battleship with Gradle
 ./gradlew run
 ```
 
+Run battleship with Gradle in testing mode 1 (randomly generate user fleet)
+
+```bash
+./gradlew run --args="testing"
+```
+
+
+Run battleship with Gradle in testing mode 2 (randomly generate user fleet and show enemy fleet)
+
+```bash
+./gradlew run --args="testing2"
+```
+
 Execute tests with Gradle
 
 ```bash

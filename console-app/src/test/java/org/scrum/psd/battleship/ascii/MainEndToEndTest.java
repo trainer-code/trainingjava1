@@ -17,26 +17,13 @@ public class MainEndToEndTest {
     public static final TextFromStandardInputStream gameInput = emptyStandardInputStream();
 
     @Test
-    public void testPlayGameShotHits() {
+    public void testPlayGame() {
         try {
             gameInput.provideLines("a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "d1", "d2", "d3", "e1", "e2", "b4");
 
             Main.main(new String[]{});
         } catch(NoSuchElementException e) {
             Assert.assertTrue(systemOutRule.getLog().contains("Welcome to Battleship"));
-            Assert.assertTrue(systemOutRule.getLog().contains("Yeah ! Nice hit !"));
-        }
-    }
-
-    @Test
-    public void testPlayGameShotMisses() {
-        try {
-            gameInput.provideLines("a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "d1", "d2", "d3", "e1", "e2", "e4");
-
-            Main.main(new String[]{});
-        } catch(NoSuchElementException e) {
-            Assert.assertTrue(systemOutRule.getLog().contains("Welcome to Battleship"));
-            Assert.assertTrue(systemOutRule.getLog().contains("Miss"));
         }
     }
 }

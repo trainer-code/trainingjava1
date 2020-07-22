@@ -9,6 +9,7 @@ import org.scrum.psd.battleship.controller.dto.Ship;
 
 import java.util.*;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -27,8 +28,18 @@ public class Main {
     private static ColoredPrinter console;
 
 
+    private static int MAX_ROW = 8;
+    private static int MAX_COLUMN = 8;
+    public static  String LETTERS = "ABCDEFGHIJKLMN";
+
+    private static int testingMode = 0;
 
     public static void main(String[] args) {
+        if (args.length > 0 && args[0].equals("testing1")) {
+          testingMode = 1;
+        }  else  if (args.length > 0 && args[0].equals("testing2")) {
+        testingMode = 2;
+      }
         console = new ColoredPrinter.Builder(1, false).build();
         console.println("                                     |__");
         console.println("                                     |\\/");
@@ -188,12 +199,17 @@ public class Main {
     }
 
     private static void InitializeGame() {
-        InitializeMyFleet();
 
-        InitializeEnemyFleet();
+      if (testingMode != 0) {
+        InitializeMyFleetRandomly();
+      } else {
+        InitializeMyFleetManually();
+      }
+
+        InitializeEnemyFleetRandomly();
     }
 
-    private static void InitializeMyFleet() {
+    private static void InitializeMyFleetManually() {
         Scanner scanner = new Scanner(System.in);
         myFleet = GameController.initializeShips();
 
@@ -220,29 +236,179 @@ public class Main {
         console.clear();
     }
 
-    private static void InitializeEnemyFleet() {
+    private static boolean doesPositionExist(Position newPosition, List<Position> occupiedPositions) {
+      for (Position position : occupiedPositions) {
+        if (position.equals(newPosition) ) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    public static int getLetterIndex(final Letter letter) {
+      return LETTERS.indexOf(letter.toString());
+    }
+
+  public static Letter getLetter(final int letterIndex) {
+    return Letter.values()[letterIndex];
+  }
+
+  private static boolean isInsideBoard(final int row, final int column) {
+    if (row < MAX_ROW && row >= 0 && column < MAX_COLUMN && column >= 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+    private static Position getHorizontalNeighbour(final Position position, final int direction, final List<Position> occupiedPositions) {
+      int letterIndex = getLetterIndex(position.getColumn());
+      int neighbourColumn = letterIndex + direction;
+      int row = position.getRow();
+      if (isInsideBoard(row, neighbourColumn)) {
+        final Letter neighbourLetter= getLetter(neighbourColumn);
+        final Position possibleNeighbourPosition = new Position(neighbourLetter, row);
+        if (!doesPositionExist(possibleNeighbourPosition, occupiedPositions)) {
+          return possibleNeighbourPosition;
+        }
+      }
+      return null;
+    }
+
+    private static Position getVerticalNeighbour(final Position position, final int direction, final List<Position> occupiedPositions) {
+      Letter letter = position.getColumn();
+      int letterIndex = getLetterIndex(letter);
+      int neighbourRow = position.getRow() + direction;
+      if (isInsideBoard(neighbourRow, letterIndex)) {
+        final Position possibleNeighbourPosition = new Position(letter, neighbourRow);
+        if (!doesPositionExist(possibleNeighbourPosition, occupiedPositions)) {
+          return possibleNeighbourPosition;
+        }
+      }
+      return null;
+    }
+
+    public static Position getRandomAdjacentPosition(final Position tailPosition, final List<Position> occupiedPositions) {
+      final ArrayList<Position> availableNeighbour = new ArrayList<>();
+      final Position possibleLeftPosition = getHorizontalNeighbour( tailPosition, -1, occupiedPositions);
+      if (possibleLeftPosition !=null ) {
+        availableNeighbour.add(possibleLeftPosition);
+      }
+
+      final Position possibleRightPosition = getHorizontalNeighbour( tailPosition, 1, occupiedPositions);
+      if (possibleRightPosition !=null ) {
+        availableNeighbour.add(possibleRightPosition);
+      }
+
+      final Position possibleUpPosition = getVerticalNeighbour( tailPosition, -1, occupiedPositions);
+      if (possibleUpPosition !=null ) {
+        availableNeighbour.add(possibleUpPosition);
+      }
+
+      final Position possibleDownPosition = getVerticalNeighbour( tailPosition, 1, occupiedPositions);
+      if (possibleDownPosition !=null ) {
+        availableNeighbour.add(possibleDownPosition);
+      }
+
+      if (availableNeighbour.size() > 0) {
+        Random random = new Random();
+        int randomNeighbourIndex = random.nextInt(availableNeighbour.size());
+        return availableNeighbour.get(randomNeighbourIndex);
+      }
+
+      return null;
+    }
+
+  private static Position getRandomPositionWithoutRestriction() {
+    int rows = 8;
+    int lines = 8;
+    Random random = new Random();
+    Letter letter = Letter.values()[random.nextInt(lines)];
+    int number = random.nextInt(rows);
+    Position position = new Position(letter, number);
+    return position;
+  }
+
+    public static void InitializeShipRandomly(final Ship ship, List<Position> occupiedPositions) {
+      Position position;
+      List<Position> possibleShipPositions = new ArrayList<>();
+      boolean startAgain;
+      do {
+        startAgain = false;
+        possibleShipPositions.clear();
+        // we might waste possibleShipPositions, so remove them from occupiedPositions if startAgain;
+        possibleShipPositions.forEach((Position pos) -> {
+          occupiedPositions.remove(pos);
+        });
+
+        do {
+          position = getRandomPositionWithoutRestriction();
+        } while (doesPositionExist(position, occupiedPositions));
+
+        Position tailPosition = position;
+        possibleShipPositions.add(tailPosition);
+        occupiedPositions.add(tailPosition);
+
+        for (int i = 1; i < ship.getSize(); i++) {
+          tailPosition = getRandomAdjacentPosition(position, occupiedPositions);
+          if (tailPosition == null) { // if there is no tail position available we need to start from a different position again
+            startAgain = true;
+          } else {
+              possibleShipPositions.add(tailPosition);
+              occupiedPositions.add(tailPosition);
+          }
+        }
+
+      } while (startAgain);
+
+      possibleShipPositions.forEach((Position pos) -> {
+        ship.getPositions().add(pos);
+      });
+    }
+
+    private static void printFleet(List<Ship> fleet, final String title) {
+      console.println("---------- " + title + " ---------");
+      for (Ship ship : fleet) {
+        console.println(ship.getName());
+        ship.getPositions().forEach((Position pos) -> {
+          int letterIndex = getLetterIndex(pos.getColumn());
+          final Letter letter = getLetter(letterIndex);
+          int row = pos.getRow();
+
+          console.println("   " + letter + row);
+        });
+      }
+      console.println("-------------------------");
+    }
+
+    public static void InitializeEnemyFleetRandomly() {
         enemyFleet = GameController.initializeShips();
+        List<Position> occupiedPositions = new ArrayList<>();
+        for (Ship ship : enemyFleet) {
+          InitializeShipRandomly(ship, occupiedPositions);
+        }
 
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 4));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 5));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 7));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 8));
+        if (testingMode == 2) {
+          printFleet(enemyFleet, "Enemy Fleet");
+        }
+    }
 
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 6));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 7));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 8));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 9));
+  public static void InitializeMyFleetRandomly() {
+    myFleet = GameController.initializeShips();
+    List<Position> occupiedPositions = new ArrayList<>();
+    for (Ship ship : myFleet) {
+      InitializeShipRandomly(ship, occupiedPositions);
+    }
 
-        enemyFleet.get(2).getPositions().add(new Position(Letter.A, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.B, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.C, 3));
+    printFleet(myFleet, "My Fleet");
+  }
 
-        enemyFleet.get(3).getPositions().add(new Position(Letter.F, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.G, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.H, 8));
+    public static List<Ship> getEnemyFleet() {
+      return enemyFleet;
+    }
 
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 5));
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));
+    public static  List<Ship> getMyFleet() {
+      return myFleet;
     }
 }

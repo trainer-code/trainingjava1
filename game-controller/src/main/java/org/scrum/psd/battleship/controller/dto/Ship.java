@@ -61,7 +61,7 @@ public class Ship {
         return new Position(letterEnum,number);
     }
 
-    // TODO: property change listener implementieren
+    // TODO: property change listener implementation
 
     public boolean isPlaced() {
         return isPlaced;
