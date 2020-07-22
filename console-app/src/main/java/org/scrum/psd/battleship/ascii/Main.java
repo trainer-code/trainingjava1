@@ -175,7 +175,7 @@ public class Main {
         } while (!isMyFleetSunk && !isEnemyFleetSunk);
     }
 
-  private static void printSunkStatus(List<Ship> fleet, final String title, final Ship justSunkShip) {
+  private static void printSunkStatus(final List<Ship> fleet, final String title, final Ship justSunkShip) {
     console.println("You sink enemy sink: " + justSunkShip.getName());
 
     console.println("░░░░░░░█████████████");
@@ -202,7 +202,7 @@ public class Main {
 
     console.println("---------- " + title + " ---------");
     for (Ship ship : fleet) {
-      if (ship.isSunk()) {
+      if (ship.checkIsSunk() || ship.getName() == justSunkShip.getName()) {
         console.println(ship.getName() + " SUNK");
       } else {
         console.println(ship.getName() + " NOT SUNK");
